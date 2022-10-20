@@ -1,0 +1,42 @@
+import { Request, Response } from "express";
+import { userService } from "../services/user.service";
+
+export async function getUsers(req: Request, res: Response) {
+  try {
+    const users = await userService.getUsers();
+    return res.status(200).json(users);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
+}
+
+export async function addUser(req: Request, res: Response) {
+  try {
+    const newUser = userService.addUser(req.body);
+    return res.status(201).json(newUser);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
+}
+
+export async function updateUser(req: Request, res: Response) {
+  try {
+    const updatedUser = await userService.updateUser(req.params.id, req.body);
+    return res.status(200).json(updatedUser);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
+}
+
+export async function deleteUser(req: Request, res: Response) {
+  try {
+    await userService.deleteUser(req.params.id);
+    return res.sendStatus(204);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
+}
