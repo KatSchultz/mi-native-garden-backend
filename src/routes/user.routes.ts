@@ -9,4 +9,6 @@ import {
 
 export const userRouter = express.Router();
 
-userRouter.route("/").get();
+userRouter.route("/").get(getUsers).post(addUser);
+
+userRouter.route("/:id").get(getUser).patch(updateUser).delete(deleteUser);
