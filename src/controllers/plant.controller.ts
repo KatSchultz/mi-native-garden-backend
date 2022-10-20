@@ -13,7 +13,7 @@ export async function getPlants(req: Request, res: Response) {
 
 export async function getPlantsByUid(req: Request, res: Response) {
   try {
-    const plants = await plantService.getPlantByUid(req.query.uid as string);
+    const plants = await plantService.getPlantsByUid(req.query.uid as string);
     return res.status(200).json(plants);
   } catch (error) {
     console.log(error);

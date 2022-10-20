@@ -11,6 +11,17 @@ export async function getUsers(req: Request, res: Response) {
   }
 }
 
+export async function getUser(req: Request, res: Response) {
+  try {
+    const user = await userService.getUser(req.params.id);
+    if (!user) return res.status(404).json("User not found");
+    return res.status(200).json(user);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
+}
+
 export async function addUser(req: Request, res: Response) {
   try {
     const newUser = userService.addUser(req.body);
