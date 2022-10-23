@@ -12,7 +12,7 @@ async function getPlant(id: string) {
 }
 
 async function getPlantsByUid(uid: string) {
-  const plant = await plantModel.findOne({ uid }).lean();
+  const plant = await plantModel.find({ uid }).lean();
   return plant;
 }
 

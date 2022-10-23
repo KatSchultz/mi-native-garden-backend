@@ -8,11 +8,16 @@ const plantSchema = new Schema<Plant>({
     unique: true,
   },
   name_scientific: String,
-  region: String,
+  region: [],
   flower_color: String,
-  moisture: String,
-  sun: String,
-  height: Number,
+  moisture_dry: Boolean,
+  moisture_ave: Boolean,
+  moisture_wet: Boolean,
+  sun_full: Boolean,
+  sun_part: Boolean,
+  sun_shd: Boolean,
+  height: String,
+  img_url: String,
 });
 
 export const plantModel = model<Plant>("Plant", plantSchema);
