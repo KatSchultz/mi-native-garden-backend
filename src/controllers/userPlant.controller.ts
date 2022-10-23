@@ -3,7 +3,9 @@ import { userPlantService } from "../services/userPlant.service";
 
 export async function getUserPlants(req: Request, res: Response) {
   try {
-    const userPlants = await userPlantService.getUserPlants();
+    const userPlants = await userPlantService.getUserPlants(
+      req.query.uid as string
+    );
     return res.status(200).json(userPlants);
   } catch (error) {
     console.log(error);

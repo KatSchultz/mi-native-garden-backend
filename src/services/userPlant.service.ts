@@ -2,8 +2,8 @@ import { plantModel } from "../models/plant.model";
 import { userPlantModel } from "../models/userPlant.model";
 import { UserPlant } from "../types/userPlant.type";
 
-async function getUserPlants() {
-  const userPlants = await userPlantModel.find();
+async function getUserPlants(uid: string) {
+  const userPlants = await userPlantModel.find({ uid }).lean();
   return userPlants;
 }
 
