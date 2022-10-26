@@ -6,6 +6,11 @@ async function getPlants() {
   return plants;
 }
 
+async function getPlantsByCriteria(sunInput: boolean) {
+  const plants = await plantModel.find({ "sun.shade": sunInput });
+  return plants;
+}
+
 async function getPlant(id: string) {
   const plant = await plantModel.findById(id);
   return plant;
@@ -34,6 +39,7 @@ async function deletPlant(id: string) {
 export const plantService = {
   getPlant,
   getPlants,
+  getPlantsByCriteria,
   getPlantsByUid,
   addPlant,
   updatePlant,
