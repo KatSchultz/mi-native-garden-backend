@@ -5,4 +5,5 @@ export interface UserPlant {
   have: boolean;
   want: boolean;
   location: string;
+  comment: string;
 }

@@ -7,6 +7,7 @@ const userPlantSchema = new Schema<UserPlant>({
   have: { type: Boolean },
   want: { type: Boolean },
   location: { type: String },
+  comment: { type: String },
 });
 
 export const userPlantModel = model<UserPlant>("UserPlant", userPlantSchema);
