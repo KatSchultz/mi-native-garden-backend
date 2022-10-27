@@ -3,6 +3,7 @@ import { plantService } from "../services/plant.service";
 
 export async function getPlants(req: Request, res: Response) {
   try {
+    console.log("running get plants");
     const plants = await plantService.getPlants();
     return res.status(200).json(plants);
   } catch (error) {
@@ -13,9 +14,11 @@ export async function getPlants(req: Request, res: Response) {
 
 export async function getPlantsByCriteria(req: Request, res: Response) {
   try {
-    const plants = plantService.getPlantsByCriteria(
-      Boolean(req.params.sunInput)
+    console.log("running getplantsbycriteria controller");
+    const plants = await plantService.getPlantsByCriteria(
+      req.query.shade as string
     );
+    console.log(req.query);
     return res.status(200).json(plants);
   } catch (error) {
     console.log(error);

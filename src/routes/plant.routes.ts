@@ -9,9 +9,13 @@ import {
   updatePlant,
 } from "../controllers/plant.controller";
 
+//ORDER MATTERS WHEN ADDING ROUTES
+
 export const plantRouter = express.Router();
 
-plantRouter.route("/").get(getPlants).post(addPlant).get(getPlantsByCriteria);
+plantRouter.route("/").get(getPlants).post(addPlant);
+
+plantRouter.route("/search").get(getPlantsByCriteria);
 
 plantRouter
   .route("/:id")

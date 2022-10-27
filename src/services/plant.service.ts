@@ -6,8 +6,9 @@ async function getPlants() {
   return plants;
 }
 
-async function getPlantsByCriteria(sunInput: boolean) {
-  const plants = await plantModel.find({ "sun.shade": sunInput });
+async function getPlantsByCriteria(sunInput: string) {
+  console.log(sunInput);
+  const plants = await plantModel.find({ "sun.shade": sunInput }).lean();
   return plants;
 }
 
