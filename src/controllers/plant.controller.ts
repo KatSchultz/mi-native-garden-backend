@@ -14,11 +14,8 @@ export async function getPlants(req: Request, res: Response) {
 
 export async function getPlantsByCriteria(req: Request, res: Response) {
   try {
-    console.log("running getplantsbycriteria controller");
-    const plants = await plantService.getPlantsByCriteria(
-      req.query.shade as string
-    );
-    console.log(req.query);
+    let bool = req.query.shade === "true";
+    const plants = await plantService.getPlantsByCriteria(bool);
     return res.status(200).json(plants);
   } catch (error) {
     console.log(error);
