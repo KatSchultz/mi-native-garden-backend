@@ -14,8 +14,19 @@ export async function getPlants(req: Request, res: Response) {
 
 export async function getPlantsByCriteria(req: Request, res: Response) {
   try {
-    let bool = req.query.shade === "true";
-    const plants = await plantService.getPlantsByCriteria(bool);
+    console.log("req.query: ", req.query);
+    let shade = req.query.shade !== "" ? true : undefined;
+    let sun_full = req.query.sun_full !== "" ? true : undefined;
+    let sun_part = req.query.sun_part !== "" ? true : undefined;
+    let moisture_wet = req.query.moisture_wet === "true";
+
+    const plants = await plantService.getPlantsByCriteria({
+      shade,
+      sun_full,
+      sun_part,
+      moisture_wet,
+    });
+    console.log("shade: ", shade);
     return res.status(200).json(plants);
   } catch (error) {
     console.log(error);

@@ -1,4 +1,5 @@
 import { plantModel } from "../models/plant.model";
+import { Filter } from "../types/filter.types";
 import { Plant } from "../types/plant.types";
 
 async function getPlants() {
@@ -6,9 +7,22 @@ async function getPlants() {
   return plants;
 }
 
-async function getPlantsByCriteria(shade: boolean) {
+async function getPlantsByCriteria({
+  shade,
+  sun_full,
+  sun_part,
+  moisture_wet,
+}: Filter) {
   console.log("plant service log", shade);
-  const plants = await plantModel.find({ "sun.shade": shade }).lean();
+  const plants = await plantModel
+    .find({
+      $or: [
+        { "sun.shade": shade },
+        { "sun.part": sun_part },
+        { "sun.full": sun_full },
+      ],
+    })
+    .lean();
   return plants;
 }
 
