@@ -12,6 +12,8 @@ async function getPlantsByCriteria({
   sun_full,
   sun_part,
   moisture_wet,
+  moisture_ave,
+  moisture_dry,
 }: Filter) {
   console.log("plant service log", shade);
   const plants = await plantModel
@@ -20,6 +22,9 @@ async function getPlantsByCriteria({
         { "sun.shade": shade },
         { "sun.part": sun_part },
         { "sun.full": sun_full },
+        { "moisture.ave": moisture_ave },
+        { "moisture.dry": moisture_dry },
+        { "moisture.wet": moisture_wet },
       ],
     })
     .lean();
