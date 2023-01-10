@@ -8,26 +8,65 @@ async function getPlants() {
 }
 
 async function getPlantsByCriteria({
-  shade,
+  sun_shade,
   sun_full,
   sun_part,
   moisture_wet,
   moisture_ave,
   moisture_dry,
 }: Filter) {
-  console.log("plant service log", shade);
-  const plants = await plantModel
-    .find({
-      $or: [
-        { "sun.shade": shade },
-        { "sun.part": sun_part },
-        { "sun.full": sun_full },
-        { "moisture.ave": moisture_ave },
-        { "moisture.dry": moisture_dry },
-        { "moisture.wet": moisture_wet },
-      ],
-    })
-    .lean();
+  console.log("sun_Shade in service: ", sun_shade);
+  const plants = await plantModel.aggregate([
+    {
+      $match: {
+        $or: [
+          {
+            "sun.full": sun_full,
+          },
+          {
+            "sun.shade": sun_shade,
+          },
+          {
+            "sun.part": sun_part,
+          },
+        ],
+      },
+    },
+    // {
+    //   $match: {
+    //     $or: [
+    //       {
+    //         "moisture.wet": moisture_wet,
+    //       },
+    //       {
+    //         "moisture.dry": moisture_dry,
+    //       },
+    //       {
+    //         "moisture.ave": moisture_ave,
+    //       },
+    //     ],
+    //   },
+    // },
+  ]);
+  // const plants = await plantModel.find({
+  //   $and: [
+  //     {
+  //       $or: [
+  //         { "sun.shade": shade },
+  //         { "sun.part": sun_part },
+  //         { "sun.full": sun_full },
+  //       ],
+  //     },
+  //     {
+  //       $or: [
+  //         { "moisture.ave": moisture_ave },
+  //         { "moisture.dry": moisture_dry },
+  //         { "moisture.wet": moisture_wet },
+  //       ],
+  //     },
+  //   ],
+  // });
+  console.log("services plants: ", plants);
   return plants;
 }
 
