@@ -15,7 +15,73 @@ async function getPlantsByCriteria({
   moisture_ave,
   moisture_dry,
 }: Filter) {
+  if (
+    sun_full === undefined &&
+    sun_part === undefined &&
+    sun_shade === undefined &&
+    moisture_ave === undefined &&
+    moisture_dry === undefined &&
+    moisture_wet === undefined
+  ) {
+    const plants = await plantModel.find();
+    return plants;
+  }
+
+  // If only sun selected
+  if (
+    moisture_ave === undefined &&
+    moisture_dry === undefined &&
+    moisture_wet === undefined
+  ) {
+    const plants = await plantModel.aggregate([
+      {
+        $match: {
+          $or: [
+            {
+              "sun.full": sun_full,
+            },
+            {
+              "sun.shade": sun_shade,
+            },
+            {
+              "sun.part": sun_part,
+            },
+          ],
+        },
+      },
+    ]);
+    return plants;
+  }
   console.log("sun_Shade in service: ", sun_shade);
+
+  // If only moisture selected
+  if (
+    sun_full === undefined &&
+    sun_part === undefined &&
+    sun_shade === undefined
+  ) {
+    const plants = plantModel.aggregate([
+      {
+        $match: {
+          $or: [
+            {
+              "moisture.wet": moisture_wet,
+            },
+            {
+              "moisture.dry": moisture_dry,
+            },
+            {
+              "moisture.ave": moisture_ave,
+            },
+          ],
+        },
+      },
+    ]);
+
+    return plants;
+  }
+
+  // If both selected
   const plants = await plantModel.aggregate([
     {
       $match: {
@@ -32,21 +98,21 @@ async function getPlantsByCriteria({
         ],
       },
     },
-    // {
-    //   $match: {
-    //     $or: [
-    //       {
-    //         "moisture.wet": moisture_wet,
-    //       },
-    //       {
-    //         "moisture.dry": moisture_dry,
-    //       },
-    //       {
-    //         "moisture.ave": moisture_ave,
-    //       },
-    //     ],
-    //   },
-    // },
+    {
+      $match: {
+        $or: [
+          {
+            "moisture.wet": moisture_wet,
+          },
+          {
+            "moisture.dry": moisture_dry,
+          },
+          {
+            "moisture.ave": moisture_ave,
+          },
+        ],
+      },
+    },
   ]);
   // const plants = await plantModel.find({
   //   $and: [
